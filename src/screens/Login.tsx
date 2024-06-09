@@ -1,6 +1,6 @@
 import { View, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { IconLogo } from "../assets";
-import { LoginForm } from "../forms";
+import { IconLogo } from "@assets/index";
+import { LoginForm } from "@forms/index";
 
 export const Login = () => {
   return (

@@ -1,4 +1,4 @@
-import { IIcon } from "../../interfaces";
+import { IIcon } from "@interfaces/index";
 import Svg, {
   Rect,
   Path,

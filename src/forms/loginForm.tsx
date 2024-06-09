@@ -1,13 +1,35 @@
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { Button, Text, TextInput, View } from "react-native";
+import { useMutationLogin } from "@queries/index";
 import { object, string } from "yup";
 
 interface ILoginFormProps {}
 export const LoginForm = ({}: ILoginFormProps) => {
+  const {
+    mutate: login,
+    isPending: loadingLogin,
+    isSuccess: loginSuccess,
+  } = useMutationLogin();
+
   const validationSchema = object({
     account: string().required("Compte requis"),
     password: string().required("Mot de passe requis"),
   });
+
+  const onSubmitHandler = async (
+    values: {
+      account: string;
+      password: string;
+    },
+    action: FormikHelpers<typeof values>
+  ) => {
+    // if (createAcc)
+    // register({ password: values.password, username: values.username });
+    // else
+    login({ password: values.password, username: values.account });
+    console.log(values);
+    // action.resetForm();
+  };
 
   return (
     <View>
@@ -17,10 +39,7 @@ export const LoginForm = ({}: ILoginFormProps) => {
           password: "",
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, action) => {
-          console.log(values);
-          action.resetForm();
-        }}
+        onSubmit={onSubmitHandler}
       >
         {(form) => (
           <View>
