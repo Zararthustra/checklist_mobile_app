@@ -9,6 +9,7 @@
       "@interfaces/*": ["./src/interfaces/*"],
       "@queries/*": ["./src/queries/*"],
       "@forms/*": ["./src/forms/*"],
+      "@utils/*": ["./src/utils/*"],
       "root/*": ["./*"]
     }
   }

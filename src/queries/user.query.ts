@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-
+import { jwtDecode } from "jwt-decode";
 import axiosInstance from "./axios";
-
 import { ILoginRequest, ILoginResponse } from "@interfaces/index";
+import { setAS } from "@utils/asyncStorage";
 
 // =====
 // Axios
@@ -12,7 +12,6 @@ import { ILoginRequest, ILoginResponse } from "@interfaces/index";
 // LOGIN
 export const login = async (payload: ILoginRequest) => {
   const { data } = await axiosInstance.post<ILoginResponse>(`/token/`, payload);
-  console.log("lol", data);
   return data;
 };
 // RECONNECT
@@ -38,18 +37,18 @@ export const useMutationLogin = () => {
     mutationFn: login,
     onSuccess: (response) => {
       console.log(response);
-      // setAccessToken(response.access);
-      // setRefreshToken(response.refresh);
-      // try {
-      //   const token = jwtDecode<any>(response.access);
-      //   setLS('name', token.username);
-      //   setLS('userId', token.user_id);
-      // } catch (error) {
-      //   console.log('JWT Error:', error);
-      // }
+      setAS("accessToken", response.access);
+      setAS("refreshToken", response.refresh);
+      try {
+        const token = jwtDecode<any>(response.access);
+        setAS("name", token.username);
+        setAS("userId", String(token.user_id));
+      } catch (error) {
+        console.log("JWT Error:", error);
+      }
     },
     onError: (error: AxiosError) => {
-      console.log("wtf", JSON.stringify(error));
+      console.error("Error: ", JSON.stringify(error.config));
     },
   });
 };
