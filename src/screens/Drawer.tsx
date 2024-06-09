@@ -9,8 +9,8 @@ function DrawerNavigator() {
   return (
     <NavigationContainer>
       <Navigator>
-        <Screen name="Home" component={Home} />
         <Screen name="Login" component={Login} />
+        <Screen name="Home" component={Home} />
       </Navigator>
     </NavigationContainer>
   );

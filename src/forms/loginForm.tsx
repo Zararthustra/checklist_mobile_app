@@ -2,9 +2,12 @@ import { Formik, FormikHelpers } from "formik";
 import { Button, Text, TextInput, View } from "react-native";
 import { useMutationLogin } from "@queries/index";
 import { object, string } from "yup";
+import { useEffect } from "react";
 
-interface ILoginFormProps {}
-export const LoginForm = ({}: ILoginFormProps) => {
+interface ILoginFormProps {
+  navigation: any;
+}
+export const LoginForm = ({ navigation }: ILoginFormProps) => {
   const {
     mutate: login,
     isPending: loadingLogin,
@@ -27,9 +30,12 @@ export const LoginForm = ({}: ILoginFormProps) => {
     // register({ password: values.password, username: values.username });
     // else
     login({ password: values.password, username: values.account });
-    console.log(values);
-    // action.resetForm();
+    action.resetForm();
   };
+
+  useEffect(() => {
+    if (loginSuccess) navigation.navigate("Home");
+  }, [loginSuccess]);
 
   return (
     <View>
@@ -72,7 +78,9 @@ export const LoginForm = ({}: ILoginFormProps) => {
 
             <Button
               title="Se connecter"
-              disabled={!!form.errors.account || !!form.errors.password}
+              disabled={
+                !!form.errors.account || !!form.errors.password || loadingLogin
+              }
               onPress={() => form.handleSubmit()}
             />
           </View>
