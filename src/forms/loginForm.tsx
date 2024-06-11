@@ -1,18 +1,17 @@
 import { Formik, FormikHelpers } from "formik";
 import { Button, Text, TextInput, View } from "react-native";
-import { useMutationLogin } from "@queries/index";
 import { object, string } from "yup";
-import { useEffect } from "react";
+import { useContext } from "react";
+import { AuthContext } from "@utils/authContext";
 
-interface ILoginFormProps {
+export const LoginForm = ({
+  isLogging,
+  navigation,
+}: {
+  isLogging: boolean;
   navigation: any;
-}
-export const LoginForm = ({ navigation }: ILoginFormProps) => {
-  const {
-    mutate: login,
-    isPending: loadingLogin,
-    isSuccess: loginSuccess,
-  } = useMutationLogin();
+}) => {
+  const { signIn, signUp } = useContext(AuthContext);
 
   const validationSchema = object({
     account: string().required("Compte requis"),
@@ -26,16 +25,14 @@ export const LoginForm = ({ navigation }: ILoginFormProps) => {
     },
     action: FormikHelpers<typeof values>
   ) => {
-    // if (createAcc)
-    // register({ password: values.password, username: values.username });
-    // else
-    login({ password: values.password, username: values.account });
+    if (isLogging)
+      signIn({ password: values.password, username: values.account });
+    else {
+      signUp({ password: values.password, username: values.account });
+      navigation.goBack();
+    }
     action.resetForm();
   };
-
-  useEffect(() => {
-    if (loginSuccess) navigation.navigate("Home");
-  }, [loginSuccess]);
 
   return (
     <View>
@@ -77,10 +74,8 @@ export const LoginForm = ({ navigation }: ILoginFormProps) => {
             </View>
 
             <Button
-              title="Se connecter"
-              disabled={
-                !!form.errors.account || !!form.errors.password || loadingLogin
-              }
+              title={isLogging ? "Se connecter" : "Créer mon compte"}
+              disabled={!!form.errors.account || !!form.errors.password}
               onPress={() => form.handleSubmit()}
             />
           </View>

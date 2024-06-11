@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { API_URL } from "@env";
+import { getAS } from "@utils/asyncStorage";
 
 export const baseURL = API_URL;
 
@@ -11,9 +12,9 @@ const axiosInstance: AxiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  function (config) {
-    // const token = getLS('accessToken');
-    // if (token) config.headers.Authorization = `Bearer ${token}`;
+  async function (config) {
+    const token = await getAS("accessToken");
+    if (!!token) config.headers.Authorization = `Bearer ${token}`;
 
     return config;
   },
