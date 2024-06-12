@@ -6,16 +6,32 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { IconClose } from "src/assets";
+import { IconClose } from "@assets/index";
+import { ICategory } from "@interfaces/index";
+import { useMutationDeleteCategory } from "@queries/index";
+import { useEffect } from "react";
 
 interface IOptionsModalProps {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
+  category: ICategory;
 }
 export const OptionsModal = ({
   showModal,
   setShowModal,
+  category,
 }: IOptionsModalProps) => {
+  const { mutate: deleteCategory, isSuccess: categoryDeleted } =
+    useMutationDeleteCategory();
+
+  const handleDeleteCategory = () => {
+    deleteCategory(category.id);
+  };
+
+  useEffect(() => {
+    if (categoryDeleted) setShowModal(false);
+  }, [categoryDeleted]);
+
   return (
     <Modal
       animationType="fade"
@@ -43,7 +59,11 @@ export const OptionsModal = ({
 
             {/* Footer */}
             <View className="flex-row justify-end w-full p-2">
-              <Button color="red" title="Supprimer" />
+              <Button
+                color="red"
+                title="Supprimer"
+                onPress={handleDeleteCategory}
+              />
             </View>
           </View>
         </View>

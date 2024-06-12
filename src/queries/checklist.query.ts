@@ -108,7 +108,9 @@ export const useMutationCreateCategory = () => {
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
-    onError: (error: AxiosError) => {},
+    onError: (error: AxiosError) => {
+      console.log("Error create category:", error);
+    },
   });
 };
 

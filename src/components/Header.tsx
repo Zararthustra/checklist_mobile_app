@@ -8,13 +8,17 @@ export const Header = ({}: IHeaderProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <View className="justify-between items-center flex flex-row pt-4 px-3">
+    <View className="justify-between items-center flex flex-row pt-4 px-3 mb-5">
       <SettingsModal showModal={showModal} setShowModal={setShowModal} />
 
       <Text className="w-[26px]"></Text>
       <IconLogo width={70} height={70} />
       <Pressable onPress={() => setShowModal(!showModal)}>
-        <IconParameter className="text-zinc-800" width={28} height={28} />
+        <IconParameter
+          className="text-zinc-800 dark:text-white"
+          width={28}
+          height={28}
+        />
       </Pressable>
     </View>
   );

@@ -8,8 +8,9 @@ import { useEffect, useMemo, useReducer } from "react";
 import { login, register } from "@queries/index";
 import { jwtDecode } from "jwt-decode";
 
+const queryClient = new QueryClient();
+
 export default function App() {
-  const queryClient = new QueryClient();
   const [state, dispatch] = useReducer(
     (
       prevState: any,

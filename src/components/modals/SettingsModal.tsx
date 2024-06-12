@@ -2,23 +2,47 @@ import {
   Button,
   Modal,
   Pressable,
+  Switch,
   Text,
+  TextInput,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@utils/authContext";
 import { IconClose } from "src/assets";
+import { useColorScheme } from "nativewind";
+import { useMutationCreateCategory } from "src/queries";
 
 interface ISettingsModalProps {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
 }
+
 export const SettingsModal = ({
   showModal,
   setShowModal,
 }: ISettingsModalProps) => {
   const { signOut } = useContext(AuthContext);
+  const { mutate: createCategory, isSuccess: categoryCreated } =
+    useMutationCreateCategory();
+
+  const [inputCategory, setInputCategory] = useState<string>("");
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
+
+  const handleCreateCategory = () => {
+    if (!!!inputCategory) return;
+    createCategory({
+      name: inputCategory,
+      color: "#f0f",
+    });
+    setInputCategory("");
+  };
+
+  useEffect(() => {
+    if (categoryCreated) setShowModal(false);
+  }, [categoryCreated]);
 
   return (
     <Modal
@@ -27,32 +51,57 @@ export const SettingsModal = ({
       visible={showModal}
       onRequestClose={() => setShowModal(false)}
     >
-      <TouchableWithoutFeedback
-        onPress={() => setShowModal(false)}
-        className=""
-      >
-        <View className="h-full justify-center flex items-center bg-black opacity-90">
-          <View className="bg-zinc-100 w-[90%] max-w-[400px] h-[60%] max-h-[600px] flex-col justify-between items-center p-2 rounded-tl-2xl rounded-br-2xl">
-            {/* Header */}
+      {/* <TouchableWithoutFeedback onPress={() => setShowModal(false)}> */}
+      <View className="h-full justify-center flex items-center">
+        <View className="bg-zinc-100 dark:bg-zinc-900 w-[90%] max-w-[400px] h-[600px] flex-col justify-between items-center p-3 rounded-tl-2xl rounded-br-2xl border-[1px] border-zinc-500 dark:border-zinc-600">
+          {/* Header */}
+          <View className="flex-row justify-between items-center w-full">
+            <Text className="text-2xl dark:text-white font-bold pl-4">
+              Paramètres
+            </Text>
+            <Pressable onPress={() => setShowModal(false)}>
+              <IconClose className="text-zinc-800 dark:text-zinc-100" />
+            </Pressable>
+          </View>
+
+          {/* Body */}
+          <View>
+            {/* New Category */}
             <View className="flex-row justify-between items-center w-full">
-              <Text className="text-2xl font-bold pl-4">Paramètres</Text>
-              <Pressable onPress={() => setShowModal(false)}>
-                <IconClose className="text-zinc-800" />
-              </Pressable>
+              <TextInput
+                onChangeText={setInputCategory}
+                value={inputCategory}
+                placeholder="Nouvelle catégorie"
+                placeholderTextColor="#b0b0b0"
+                className="border-zinc-300 dark:text-white dark:border-zinc-700 border-[1px] px-2 rounded-sm"
+              />
+              <Button
+                title="Ajouter"
+                color="green"
+                onPress={handleCreateCategory}
+              />
             </View>
 
-            {/* Body */}
-            <View>
-              <Text>Settings</Text>
-            </View>
-
-            {/* Footer */}
-            <View>
-              <Button color="red" title="deconnexion" onPress={signOut} />
+            {/* Darkmode */}
+            <View className="flex-row justify-between items-center w-full">
+              <Text className="dark:text-white">Mode sombre</Text>
+              <Switch
+                trackColor={{ false: "#767577", true: "#82BD69" }}
+                thumbColor={"#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleColorScheme}
+                value={isDarkMode}
+              />
             </View>
           </View>
+
+          {/* Footer */}
+          <View>
+            <Button color="red" title="deconnexion" onPress={signOut} />
+          </View>
         </View>
-      </TouchableWithoutFeedback>
+      </View>
+      {/* </TouchableWithoutFeedback> */}
     </Modal>
   );
 };

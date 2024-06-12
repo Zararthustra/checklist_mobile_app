@@ -10,32 +10,33 @@ interface ICategoryProps {
   tasks: ITask[];
 }
 
-export const Category = ({
-  category: { id, name, color, isHidden },
-  tasks,
-}: ICategoryProps) => {
+export const Category = ({ category, tasks }: ICategoryProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const dynamicStyle = StyleSheet.create({
     header: {
-      backgroundColor: color,
+      backgroundColor: category.color,
     },
   });
 
   return (
     <View className="">
-      <OptionsModal showModal={showModal} setShowModal={setShowModal} />
+      <OptionsModal
+        category={category}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
 
       {/* Header */}
       <View
         style={dynamicStyle.header}
         className="flex-row justify-between items-center px-5 py-2 rounded-tl-xl"
       >
-        {isHidden ? (
+        {category.isHidden ? (
           <IconHidden className="text-zinc-800" />
         ) : (
           <IconVisible className="text-zinc-800" />
         )}
-        <Text className="text-2xl font-bold">{name}</Text>
+        <Text className="text-2xl font-bold">{category.name}</Text>
         <Pressable onPress={() => setShowModal(!showModal)}>
           <IconOptions className="text-zinc-800" />
         </Pressable>
@@ -43,6 +44,7 @@ export const Category = ({
 
       {/* Tasks */}
       <FlatList
+        initialNumToRender={2}
         data={tasks}
         renderItem={({ item }) => <Task task={item} />}
         keyExtractor={(item) => item.id}

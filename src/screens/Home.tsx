@@ -34,10 +34,11 @@ export const Home = () => {
     );
 
   return (
-    <View className="flex-1 p-3">
+    <View className="flex-1 p-3 dark:bg-zinc-900">
       <Header />
       <FlatList
         contentContainerStyle={{ gap: 10 }}
+        initialNumToRender={2}
         data={categories}
         renderItem={({ item }) => (
           <Category
