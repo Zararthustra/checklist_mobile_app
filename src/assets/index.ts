@@ -28,3 +28,4 @@ export { IconTemplate } from "./svg/IconTemplate";
 export { IconTrash } from "./svg/IconTrash";
 export { IconVisible } from "./svg/IconVisible";
 export { IconWarning } from "./svg/IconWarning";
+export { IconOptions } from "./svg/IconOptions";

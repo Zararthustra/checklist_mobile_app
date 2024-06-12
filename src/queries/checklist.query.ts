@@ -113,21 +113,19 @@ export const useMutationCreateCategory = () => {
 };
 
 // RETRIEVE
-export const useQueryRetrieveCategories = (isAuth: boolean) => {
+export const useQueryRetrieveCategories = () => {
   return useQuery({
     queryKey: ["categories"],
     queryFn: retrieveCategories,
-    enabled: isAuth,
     retry: false,
     meta: { errorCode: "EErrorCodes.SOME_QUERY_ERROR" },
   });
 };
 
-export const useQueryRetrieveTasks = (isAuth: boolean) => {
+export const useQueryRetrieveTasks = () => {
   return useQuery({
     queryKey: ["tasks"],
     queryFn: retrieveTasks,
-    enabled: isAuth,
     retry: false,
     meta: { errorCode: "EErrorCodes.SOME_QUERY_ERROR" },
   });

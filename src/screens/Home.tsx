@@ -1,19 +1,51 @@
-import { Button, Text, View } from "react-native";
-import { API_URL } from "@env";
-import { deleteAS, getAS } from "src/utils/asyncStorage";
-import { useContext } from "react";
-import { AuthContext } from "@utils/authContext";
+import { Button, FlatList, Text, View } from "react-native";
+import {
+  useQueryRetrieveCategories,
+  useQueryRetrieveTasks,
+} from "@queries/index";
+import { Category, Header } from "@components/index";
 
 export const Home = () => {
-  const { signOut } = useContext(AuthContext);
+  const {
+    data: categories,
+    error: errorCategories,
+    isLoading: loadingCategories,
+  } = useQueryRetrieveCategories();
+  const {
+    data: tasks,
+    error: errorTasks,
+    isLoading: loadingTasks,
+  } = useQueryRetrieveTasks();
+
+  if (loadingCategories || loadingTasks)
+    return (
+      <View className="bg-orange-500 p-5">
+        <Header />
+        <Text>LOADING</Text>
+      </View>
+    );
+
+  if (errorCategories || errorTasks || !tasks)
+    return (
+      <View className="bg-red-500 p-5">
+        <Header />
+        <Text>NO DATA</Text>
+      </View>
+    );
 
   return (
-    <View className="bg-red-500 p-5">
-      <Text>{API_URL ?? "None"}</Text>
-      <Button title="deco" onPress={signOut} />
-      <Button
-        title="get"
-        onPress={async () => console.log(await getAS("accessToken"))}
+    <View className="flex-1 p-3">
+      <Header />
+      <FlatList
+        contentContainerStyle={{ gap: 10 }}
+        data={categories}
+        renderItem={({ item }) => (
+          <Category
+            category={item}
+            tasks={tasks?.filter((task) => item.id === task.category)}
+          />
+        )}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );
