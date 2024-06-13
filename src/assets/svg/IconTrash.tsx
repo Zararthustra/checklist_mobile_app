@@ -1,19 +1,17 @@
-import { IIcon } from '@interfaces/index';
+import { IIcon } from "@interfaces/index";
+import Svg, { Path } from "react-native-svg";
 
-export const IconTrash = ({
-  size = 20,
-  className = '',
-  color,
-  onClick
-}: IIcon) => (
-  <svg
+export const IconTrash = ({ size = 24, className = "", style }: IIcon) => (
+  <Svg
     className={className}
     height={size}
     width={size}
-    onClick={onClick}
-    fill={color ?? 'currentColor'}
+    style={style}
     viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg">
-    <path d="M7 21q-.825 0-1.413-.588T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.588 1.413T17 21H7Zm2-4h2V8H9v9Zm4 0h2V8h-2v9Z" />
-  </svg>
+  >
+    <Path
+      fill="currentColor"
+      d="M7.616 20q-.667 0-1.141-.475T6 18.386V6h-.5q-.213 0-.356-.144T5 5.499t.144-.356T5.5 5H9q0-.31.23-.54t.54-.23h4.46q.31 0 .54.23T15 5h3.5q.213 0 .356.144t.144.357t-.144.356T18.5 6H18v12.385q0 .666-.475 1.14t-1.14.475zm2.692-3q.213 0 .357-.144t.143-.356v-8q0-.213-.144-.356T10.307 8t-.356.144t-.143.356v8q0 .213.144.356q.144.144.356.144m3.385 0q.213 0 .356-.144t.143-.356v-8q0-.213-.144-.356Q13.904 8 13.692 8q-.213 0-.357.144t-.143.356v8q0 .213.144.356t.357.144"
+    />
+  </Svg>
 );

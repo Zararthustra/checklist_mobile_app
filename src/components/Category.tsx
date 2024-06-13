@@ -1,6 +1,4 @@
-import { ICategory, ITask } from "@interfaces/index";
 import {
-  FlatList,
   Text,
   View,
   StyleSheet,
@@ -8,11 +6,14 @@ import {
   ScrollView,
   Dimensions,
   Animated,
+  TextInput,
 } from "react-native";
-import { Task } from "./Task";
-import { IconHidden, IconOptions, IconVisible } from "@assets/index";
-import { OptionsModal } from "./modals/OptionsModal";
 import { useState } from "react";
+import { Task } from "./Task";
+import { OptionsModal } from "./modals/OptionsModal";
+import { IconAddTask, IconLoader, IconOptions } from "@assets/index";
+import { ICategory, ITask } from "@interfaces/index";
+import { useMutationCreateTask } from "@queries/index";
 
 interface ICategoryProps {
   category: ICategory;
@@ -32,9 +33,23 @@ export const Category = ({
   CATEGORY_WIDTH,
 }: ICategoryProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [inputTask, setInputTask] = useState<string>("");
+  const { mutate: createTask, isPending: loadingTask } =
+    useMutationCreateTask();
+
+  const handleCreateTask = () => {
+    if (!!!inputTask) return;
+    createTask({
+      name: inputTask,
+      categoryId: category.id,
+    });
+    setInputTask("");
+  };
+
   const dynamicStyle = StyleSheet.create({
     header: {
       backgroundColor: category.color,
+      borderColor: category.color,
     },
   });
 
@@ -71,7 +86,7 @@ export const Category = ({
         ],
         opacity: scrollX.interpolate({
           inputRange,
-          outputRange: [0.2, 1, 0.2],
+          outputRange: [0.4, 1, 0.4],
         }),
       }}
     >
@@ -85,7 +100,7 @@ export const Category = ({
         {/* Header */}
         <View
           style={dynamicStyle.header}
-          className="flex-row justify-between items-center px-5 py-2 rounded-tl-xl"
+          className="flex-row justify-between items-center px-4 py-4 rounded-tl-xl"
         >
           {/* 
           {category.isHidden ? (
@@ -97,18 +112,56 @@ export const Category = ({
           <View className="w-[24px]"></View>
           <Text className="text-2xl font-bold">{category.name}</Text>
           <Pressable onPress={() => setShowModal(!showModal)}>
-            <IconOptions className="text-zinc-800" />
+            <IconOptions className="text-zinc-800" width={32} height={32} />
           </Pressable>
         </View>
 
         {/* Tasks */}
-        <ScrollView>
-          {tasks && tasks.map((task) => <Task key={task.id} task={task} />)}
+        <ScrollView
+          className="bg-white dark:bg-zinc-800 border-l-[2px] border-r-[2px]"
+          style={{
+            borderColor: category.color,
+          }}
+        >
+          {!!!inputTask && (
+            <View
+              style={{
+                paddingVertical: !!tasks?.length ? 12 : 0,
+              }}
+            >
+              {!!tasks &&
+                tasks.map((task) => (
+                  <Task key={task.id} task={task} color={category.color} />
+                ))}
+            </View>
+          )}
         </ScrollView>
 
         {/* Footer */}
-        <View style={dynamicStyle.header} className="py-2 rounded-br-xl">
-          <Text className=""></Text>
+        <View
+          style={dynamicStyle.header}
+          className="flex-row items-center justify-between rounded-br-xl border-[2px] pr-3"
+        >
+          <TextInput
+            onChangeText={setInputTask}
+            value={inputTask}
+            clearButtonMode="always"
+            placeholder="Nouvel élément"
+            placeholderTextColor="#b0b0b0"
+            onSubmitEditing={handleCreateTask}
+            className="dark:text-white bg-white dark:bg-zinc-800 px-2 py-2 w-[85%]"
+          />
+          <Pressable onPress={handleCreateTask}>
+            {loadingTask ? (
+              <IconLoader className="dark:text-white text-black" />
+            ) : (
+              <IconAddTask
+                className="dark:text-white text-black"
+                width={30}
+                height={30}
+              />
+            )}
+          </Pressable>
         </View>
       </View>
     </Animated.View>

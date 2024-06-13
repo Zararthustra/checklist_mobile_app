@@ -62,13 +62,13 @@ export const updateCategory = async ({
 };
 
 export const updateTask = async ({
-  payload,
+  isDisabled,
   id,
 }: {
-  payload: any;
+  isDisabled: boolean;
   id: string;
 }): Promise<ITask> => {
-  const { data } = await axiosInstance.patch(`/tasks/${id}`, payload);
+  const { data } = await axiosInstance.patch(`/tasks/${id}`, { isDisabled });
   return data;
 };
 
@@ -146,7 +146,7 @@ export const useMutationUpdateCategory = () => {
   });
 };
 
-export const useMutationUpdateTask = (disabled: boolean) => {
+export const useMutationUpdateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -155,7 +155,9 @@ export const useMutationUpdateTask = (disabled: boolean) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },
-    onError: (error: AxiosError) => {},
+    onError: (error: AxiosError) => {
+      console.log("error while checking task:", error.response);
+    },
   });
 };
 

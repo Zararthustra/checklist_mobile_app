@@ -71,9 +71,11 @@ export const SettingsModal = ({
               <TextInput
                 onChangeText={setInputCategory}
                 value={inputCategory}
+                clearButtonMode="always"
                 placeholder="Nouvelle catégorie"
                 placeholderTextColor="#b0b0b0"
                 className="border-zinc-300 dark:text-white dark:border-zinc-700 border-[1px] px-2 rounded-sm"
+                onSubmitEditing={handleCreateCategory}
               />
               <Button
                 title="Ajouter"

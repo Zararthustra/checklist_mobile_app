@@ -61,7 +61,7 @@ export const Home = () => {
     );
 
   return (
-    <View className="p-3 dark:bg-zinc-900">
+    <View className="p-3 dark:bg-zinc-900 h-full">
       <Header />
       <Animated.FlatList
         // initialNumToRender={2}
