@@ -46,6 +46,7 @@ export const Category = ({
     index * CATEGORY_WIDTH,
   ];
 
+  // Extreme side items
   if (["left", "right"].includes(category.name)) {
     return (
       <View

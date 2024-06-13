@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import { IconLogo, IconParameter } from "src/assets";
+import { IconLogo, IconParameter } from "@assets/index";
 import { SettingsModal } from "./modals/SettingsModal";
 
 interface IHeaderProps {}
@@ -12,7 +12,7 @@ export const Header = ({}: IHeaderProps) => {
       <SettingsModal showModal={showModal} setShowModal={setShowModal} />
 
       <Text className="w-[26px]"></Text>
-      <IconLogo width={70} height={70} />
+      <IconLogo width={70} height={70} className="text-black dark:text-white" />
       <Pressable onPress={() => setShowModal(!showModal)}>
         <IconParameter
           className="text-zinc-800 dark:text-white"

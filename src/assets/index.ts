@@ -1,7 +1,3 @@
-// Images
-// export { default as blank_profile } from './img/blank_profile.png';
-
-// Icons
 export { IconAddTask } from "./svg/IconAddTask";
 export { IconClose } from "./svg/IconClose";
 export { IconDark } from "./svg/IconDark";
