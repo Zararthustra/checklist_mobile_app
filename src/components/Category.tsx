@@ -7,7 +7,7 @@ import { useState } from "react";
 
 interface ICategoryProps {
   category: ICategory;
-  tasks: ITask[];
+  tasks: ITask[] | undefined;
 }
 
 export const Category = ({ category, tasks }: ICategoryProps) => {
@@ -43,12 +43,8 @@ export const Category = ({ category, tasks }: ICategoryProps) => {
       </View>
 
       {/* Tasks */}
-      <FlatList
-        initialNumToRender={2}
-        data={tasks}
-        renderItem={({ item }) => <Task task={item} />}
-        keyExtractor={(item) => item.id}
-      />
+      {tasks && tasks.map((task) => <Task key={task.id} task={task} />)}
+
       {/* Footer */}
       <View style={dynamicStyle.header} className="py-2 rounded-br-xl">
         <Text className=""></Text>

@@ -1,9 +1,11 @@
-import { Button, FlatList, Text, View } from "react-native";
+import { useCallback } from "react";
+import { FlatList, Text, View } from "react-native";
 import {
   useQueryRetrieveCategories,
   useQueryRetrieveTasks,
 } from "@queries/index";
 import { Category, Header } from "@components/index";
+import { ICategory } from "@interfaces/index";
 
 export const Home = () => {
   const {
@@ -16,6 +18,20 @@ export const Home = () => {
     error: errorTasks,
     isLoading: loadingTasks,
   } = useQueryRetrieveTasks();
+
+  // Using an arrow function inline on Flatlist
+  // re-creates the function on every re-render
+  // causing performance issue => better useCallback
+  const renderItem = useCallback(
+    ({ item }: any) => (
+      <Category
+        category={item}
+        tasks={tasks?.filter((task) => item.id === task.category)}
+      />
+    ),
+    [tasks]
+  );
+  const keyExtractor = useCallback((item: ICategory) => item.id.toString(), []);
 
   if (loadingCategories || loadingTasks)
     return (
@@ -40,13 +56,8 @@ export const Home = () => {
         contentContainerStyle={{ gap: 10 }}
         initialNumToRender={2}
         data={categories}
-        renderItem={({ item }) => (
-          <Category
-            category={item}
-            tasks={tasks?.filter((task) => item.id === task.category)}
-          />
-        )}
-        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
       />
     </View>
   );
