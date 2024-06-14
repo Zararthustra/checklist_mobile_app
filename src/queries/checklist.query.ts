@@ -142,7 +142,9 @@ export const useMutationUpdateCategory = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
-    onError: (error: AxiosError) => {},
+    onError: (error: AxiosError) => {
+      console.log("Error while updating category:", error.response);
+    },
   });
 };
 

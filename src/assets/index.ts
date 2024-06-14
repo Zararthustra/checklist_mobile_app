@@ -25,3 +25,4 @@ export { IconTrash } from "./svg/IconTrash";
 export { IconVisible } from "./svg/IconVisible";
 export { IconWarning } from "./svg/IconWarning";
 export { IconOptions } from "./svg/IconOptions";
+export { IconEdit } from "./svg/IconEdit";
