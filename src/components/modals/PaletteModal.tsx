@@ -19,7 +19,7 @@ export const PaletteModal = ({
   } = useMutationUpdateCategory();
 
   return (
-    <View className="z-10 absolute top-[40px] right-[0px] border-[1px] border-zinc-200 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700 w-[175px] h-[190px] flex-col p-2 rounded-tl-lg rounded-br-lg">
+    <View className="z-10 absolute bottom-[40px] right-[0px] border-[1px] border-zinc-200 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700 w-[175px] h-[190px] flex-col p-2 rounded-tl-lg rounded-br-lg">
       {loadingUpdate ? (
         <View className="justify-center items-center h-full">
           <IconLoader width={70} height={70} style={{ color: categoryColor }} />
