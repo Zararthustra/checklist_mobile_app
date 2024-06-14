@@ -2,7 +2,6 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  Button,
   Pressable,
   Text,
 } from "react-native";
@@ -12,7 +11,7 @@ import { LoginForm } from "@forms/index";
 export const Login = ({ navigation }: { navigation: any }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View className="justify-center flex flex-col items-center bg-zinc-100 dark:text-zinc-100">
+      <View className="justify-center flex flex-col items-center bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 h-full">
         <IconLogo
           width={250}
           height={250}
@@ -20,10 +19,12 @@ export const Login = ({ navigation }: { navigation: any }) => {
         />
         <LoginForm isLogging navigation={navigation} />
 
-        <View>
-          <Text>Pas encore de compte ?</Text>
+        <View className="items-center mt-5">
+          <Text className="text-xs text-zinc-400">Pas encore de compte ?</Text>
           <Pressable onPress={() => navigation.navigate("Register")}>
-            <Text>créer un compte</Text>
+            <Text className="underline text-zinc-700 dark:text-zinc-200 font-bold">
+              Créer un compte
+            </Text>
           </Pressable>
         </View>
       </View>

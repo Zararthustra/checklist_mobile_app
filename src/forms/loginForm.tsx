@@ -1,8 +1,10 @@
 import { Formik, FormikHelpers } from "formik";
-import { Button, Text, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { object, string } from "yup";
 import { useContext } from "react";
 import { AuthContext } from "@utils/authContext";
+import { Button } from "@components/index";
+import { IconLogin } from "@assets/index";
 
 export const LoginForm = ({
   isLogging,
@@ -48,10 +50,10 @@ export const LoginForm = ({
           <View>
             {/* Account */}
             <View>
-              <Text>Compte</Text>
               <TextInput
-                className="border"
+                className="border-zinc-300 dark:text-white dark:border-zinc-700 border-[1px] px-2 py-1 rounded-sm w-[180px]"
                 placeholder="Compte"
+                placeholderTextColor="#b0b0b0"
                 onChangeText={form.handleChange("account")}
                 value={form.values.account}
                 onBlur={form.handleBlur("account")}
@@ -61,10 +63,10 @@ export const LoginForm = ({
 
             {/* Password */}
             <View>
-              <Text>Mot de passe</Text>
               <TextInput
-                className="border"
+                className="border-zinc-300 dark:text-white dark:border-zinc-700 border-[1px] px-2 py-1 rounded-sm w-[180px]"
                 placeholder="Mot de passe"
+                placeholderTextColor="#b0b0b0"
                 textContentType="password"
                 onChangeText={form.handleChange("password")}
                 value={form.values.password}
@@ -74,9 +76,12 @@ export const LoginForm = ({
             </View>
 
             <Button
-              title={isLogging ? "Se connecter" : "Créer mon compte"}
+              text={isLogging ? "Se connecter" : "Créer mon compte"}
+              color="#61a146"
+              textColor="white"
               disabled={!!form.errors.account || !!form.errors.password}
-              onPress={() => form.handleSubmit()}
+              onPress={() => form.handleSubmit}
+              icon={<IconLogin className="text-white" width={22} height={22} />}
             />
           </View>
         )}

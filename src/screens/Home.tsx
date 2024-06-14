@@ -6,6 +6,8 @@ import {
 } from "@queries/index";
 import { Category, Header } from "@components/index";
 import { ICategory } from "@interfaces/index";
+import { IconLoader } from "src/assets";
+import { useColorScheme } from "nativewind";
 
 // Globals
 const { width, height } = Dimensions.get("window");
@@ -14,6 +16,7 @@ const CATEGORY_HEIGHT = height * 0.82;
 const CATEGORY_WIDTH = width > 400 ? width * 0.55 : width * 0.85;
 
 export const Home = () => {
+  const { colorScheme } = useColorScheme();
   const {
     data: categories,
     error: errorCategories,
@@ -46,17 +49,31 @@ export const Home = () => {
 
   if (loadingCategories || loadingTasks)
     return (
-      <View className="bg-orange-500 p-5">
+      <View className="p-3 dark:bg-zinc-900 h-full">
         <Header />
-        <Text>LOADING</Text>
+        <View className="items-center justify-center h-full">
+          <IconLoader
+            width={150}
+            height={150}
+            color={colorScheme === "dark" ? "white" : "black"}
+          />
+          <Text className="text-2xl font-bold mt-5 italic dark:text-white">
+            Chargement de la checklist...
+          </Text>
+        </View>
       </View>
     );
 
   if (errorCategories || errorTasks || !tasks)
     return (
-      <View className="bg-red-500 p-5">
+      <View className="p-3 dark:bg-zinc-900 h-full">
         <Header />
-        <Text>NO DATA</Text>
+        <View className="items-center justify-center h-full">
+          <Text className="text-2xl font-bold italic dark:text-white text-center">
+            Une erreur est survenue lors de la récupération des données,
+            veuillez réessayer plus tard.
+          </Text>
+        </View>
       </View>
     );
 
@@ -74,6 +91,7 @@ export const Home = () => {
             id: "left",
             name: "left",
             color: "string",
+            text_color: "black" as "black",
             isHidden: false,
             isRecurrent: false,
             owner: 1,
@@ -83,6 +101,7 @@ export const Home = () => {
             id: "right",
             name: "right",
             color: "string",
+            text_color: "black" as "black",
             isHidden: false,
             isRecurrent: false,
             owner: 1,

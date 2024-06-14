@@ -5,7 +5,7 @@ import { LoginForm } from "@forms/index";
 export const Register = ({ navigation }: { navigation: any }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View className="justify-center flex flex-col items-center bg-zinc-100 dark:text-zinc-100">
+      <View className="justify-center flex flex-col items-center bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100 h-full">
         <IconLogo
           width={250}
           height={250}
