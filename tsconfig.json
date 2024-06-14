@@ -10,6 +10,7 @@
       "@queries/*": ["./src/queries/*"],
       "@forms/*": ["./src/forms/*"],
       "@utils/*": ["./src/utils/*"],
+      "@data/*": ["./src/data/*"],
       "@components/*": ["./src/components/*"],
       "root/*": ["./*"]
     }

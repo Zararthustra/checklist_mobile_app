@@ -58,11 +58,12 @@ export const SettingsModal = ({
     >
       <TouchableOpacity
         activeOpacity={1}
+        style={{ backgroundColor: "#000000CC" }}
         onPressOut={() => {
           setShowModal(false);
         }}
       >
-        <View className="h-full justify-center flex items-center bg-black opacity-90">
+        <View className="h-full justify-center flex items-center">
           <TouchableWithoutFeedback>
             <View className="bg-white dark:bg-zinc-800 w-[90%] max-w-[400px] h-[300px] flex-col justify-between items-center p-3 rounded-tl-2xl rounded-br-2xl border-[1px] border-zinc-500 dark:border-zinc-600">
               {/* Header */}

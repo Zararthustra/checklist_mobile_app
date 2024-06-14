@@ -8,24 +8,27 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { IconClose, IconEdit, IconTrash } from "@assets/index";
+import { IconClose, IconEdit, IconPalette, IconTrash } from "@assets/index";
 import { ICategory } from "@interfaces/index";
 import {
   useMutationDeleteCategory,
   useMutationUpdateCategory,
 } from "@queries/index";
 import { Button } from "../Button";
+import { PaletteModal } from "./PaletteModal";
 
 interface IOptionsModalProps {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
   category: ICategory;
 }
+
 export const OptionsModal = ({
   showModal,
   setShowModal,
   category,
 }: IOptionsModalProps) => {
+  const [showPalette, setShowPalette] = useState<boolean>(false);
   const [inputCategory, setInputCategory] = useState<string>("");
   const {
     mutate: deleteCategory,
@@ -67,13 +70,19 @@ export const OptionsModal = ({
     >
       <TouchableOpacity
         activeOpacity={1}
+        style={{ backgroundColor: "#000000CC" }}
         onPressOut={() => {
           setShowModal(false);
+          setShowPalette(false);
         }}
       >
-        <View className="h-full justify-center flex items-center bg-black opacity-90">
-          <TouchableWithoutFeedback>
-            <View className="bg-white dark:bg-zinc-800 w-[90%] max-w-[400px] h-[500px] flex-col justify-between items-center p-2 rounded-tl-2xl rounded-br-2xl">
+        <View className="h-full justify-center flex items-center">
+          <TouchableWithoutFeedback onPress={() => setShowPalette(false)}>
+            <View className="relative bg-white dark:bg-zinc-800 w-[90%] max-w-[400px] h-[500px] flex-col justify-between items-center p-2 rounded-tl-2xl rounded-br-2xl">
+              <View
+                style={{ backgroundColor: category.color }}
+                className="bottom-0 left-0 rounded-tr-full w-[100px] h-[100px] absolute"
+              />
               {/* Header */}
               <View className="flex-row justify-between w-full">
                 <Text className="text-2xl dark:text-white font-bold pl-4">
@@ -108,6 +117,27 @@ export const OptionsModal = ({
                       <IconEdit className="text-white" width={20} height={20} />
                     }
                   />
+                </View>
+
+                {/* Color */}
+                <View className="flex-row relative justify-between items-center w-full my-1">
+                  {showPalette && (
+                    <PaletteModal
+                      categoryId={category.id}
+                      categoryColor={category.color}
+                    />
+                  )}
+                  <Text className="dark:text-white font-bold">
+                    Couleur catégorie
+                  </Text>
+                  <Pressable onPress={() => setShowPalette(!showPalette)}>
+                    <IconPalette
+                      color={category.color}
+                      className="text-white"
+                      width={35}
+                      height={35}
+                    />
+                  </Pressable>
                 </View>
               </View>
 
