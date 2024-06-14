@@ -7,3 +7,4 @@ export { Button } from "./Button";
 export { SettingsModal } from "./modals/SettingsModal";
 export { OptionsModal } from "./modals/OptionsModal";
 export { PaletteModal } from "./modals/PaletteModal";
+export { ConfirmDeleteModal } from "./modals/ConfirmDeleteModal";

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import {
   Linking,
   Modal,
@@ -17,12 +17,10 @@ import {
   IconTrash,
 } from "@assets/index";
 import { ICategory, ITask } from "@interfaces/index";
-import {
-  useMutationDeleteCategory,
-  useMutationUpdateCategory,
-} from "@queries/index";
+import { useMutationUpdateCategory } from "@queries/index";
 import { Button } from "../Button";
 import { PaletteModal } from "./PaletteModal";
+import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 
 interface IOptionsModalProps {
   showModal: boolean;
@@ -38,12 +36,9 @@ export const OptionsModal = ({
   tasks,
 }: IOptionsModalProps) => {
   const [showPalette, setShowPalette] = useState<boolean>(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
   const [inputCategory, setInputCategory] = useState<string>("");
-  const {
-    mutate: deleteCategory,
-    isSuccess: categoryDeleted,
-    isPending: loadingDelete,
-  } = useMutationDeleteCategory();
+
   const {
     mutate: updateCategory,
     isSuccess: categoryUpdated,
@@ -61,14 +56,6 @@ export const OptionsModal = ({
     });
     setInputCategory("");
   };
-
-  const handleDeleteCategory = () => {
-    deleteCategory(category.id);
-  };
-
-  useEffect(() => {
-    if (categoryDeleted) setShowModal(false);
-  }, [categoryDeleted]);
 
   const smsURL =
     "sms:?&body=Voici ma liste " +
@@ -161,7 +148,7 @@ export const OptionsModal = ({
                           borderColor:
                             category.text_color === "black"
                               ? "#22c55e"
-                              : "transparent",
+                              : "#ddd",
                         }}
                         className="w-[25px] h-[25px] rounded-tl rounded-br border-[2px]"
                       />
@@ -182,7 +169,7 @@ export const OptionsModal = ({
                           borderColor:
                             category.text_color === "white"
                               ? "#22c55e"
-                              : "transparent",
+                              : "#ddd",
                         }}
                         className="w-[25px] h-[25px] rounded-tl rounded-br border-[2px]"
                       />
@@ -233,12 +220,16 @@ export const OptionsModal = ({
 
               {/* Footer */}
               <View className="flex-row justify-end w-full p-2">
+                <ConfirmDeleteModal
+                  showModal={showDeleteConfirm}
+                  setShowModal={setShowDeleteConfirm}
+                  category={category}
+                />
                 <Button
                   text="Supprimer"
                   color="#ef4444"
                   textColor="white"
-                  loading={loadingDelete}
-                  onPress={handleDeleteCategory}
+                  onPress={() => setShowDeleteConfirm(true)}
                   icon={
                     <IconTrash className="text-white" width={20} height={20} />
                   }
