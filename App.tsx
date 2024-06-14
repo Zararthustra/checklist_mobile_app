@@ -1,16 +1,28 @@
 import "react-native-gesture-handler";
-import StackNavigator from "./src/screens/StackNavigator";
+import { useEffect, useMemo, useReducer } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useColorScheme } from "nativewind";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import StackNavigator from "./src/screens/StackNavigator";
 import { deleteAS, getAS, setAS } from "@utils/asyncStorage";
 import { AuthContext } from "@utils/authContext";
 import { ILoginRequest } from "@interfaces/index";
-import { useEffect, useMemo, useReducer } from "react";
 import { login, register } from "@queries/index";
-import { jwtDecode } from "jwt-decode";
 
 const queryClient = new QueryClient();
 
 export default function App() {
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+
+  // Set darkmode from AS on mounting
+  useEffect(() => {
+    const setDarkmode = async () => {
+      const isDarkmodeAS = await getAS("colorScheme");
+      if (!!isDarkmodeAS && isDarkmodeAS !== colorScheme) toggleColorScheme();
+    };
+    setDarkmode();
+  }, [colorScheme, toggleColorScheme]);
+
   const [state, dispatch] = useReducer(
     (
       prevState: any,

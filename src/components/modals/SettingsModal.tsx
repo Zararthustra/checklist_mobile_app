@@ -9,11 +9,12 @@ import {
   View,
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
+import { useColorScheme } from "nativewind";
+import { Button } from "../Button";
 import { AuthContext } from "@utils/authContext";
 import { IconAddTask, IconClose, IconOnOff } from "@assets/index";
-import { useColorScheme } from "nativewind";
 import { useMutationCreateCategory } from "@queries/index";
-import { Button } from "../Button";
+import { setAS } from "@utils/asyncStorage";
 
 interface ISettingsModalProps {
   showModal: boolean;
@@ -111,7 +112,14 @@ export const SettingsModal = ({
                     trackColor={{ false: "#767577", true: "#82BD69" }}
                     thumbColor={"#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleColorScheme}
+                    onValueChange={async (isDark) => {
+                      toggleColorScheme();
+                      try {
+                        await setAS("colorScheme", isDark ? "dark" : "light");
+                      } catch (error) {
+                        console.log("Error while setting dark mode:", error);
+                      }
+                    }}
                     value={isDarkMode}
                   />
                 </View>
