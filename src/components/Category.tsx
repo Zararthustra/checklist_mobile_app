@@ -94,6 +94,7 @@ export const Category = ({
         category={category}
         showModal={showModal}
         setShowModal={setShowModal}
+        tasks={tasks}
       />
 
       <View style={{ maxHeight: CATEGORY_HEIGHT }}>

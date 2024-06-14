@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
+  Linking,
   Modal,
   Pressable,
   Text,
@@ -8,8 +9,14 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { IconClose, IconEdit, IconPalette, IconTrash } from "@assets/index";
-import { ICategory } from "@interfaces/index";
+import {
+  IconClose,
+  IconEdit,
+  IconPalette,
+  IconSMS,
+  IconTrash,
+} from "@assets/index";
+import { ICategory, ITask } from "@interfaces/index";
 import {
   useMutationDeleteCategory,
   useMutationUpdateCategory,
@@ -21,12 +28,14 @@ interface IOptionsModalProps {
   showModal: boolean;
   setShowModal: (value: boolean) => void;
   category: ICategory;
+  tasks: ITask[] | undefined;
 }
 
 export const OptionsModal = ({
   showModal,
   setShowModal,
   category,
+  tasks,
 }: IOptionsModalProps) => {
   const [showPalette, setShowPalette] = useState<boolean>(false);
   const [inputCategory, setInputCategory] = useState<string>("");
@@ -60,6 +69,20 @@ export const OptionsModal = ({
   useEffect(() => {
     if (categoryDeleted) setShowModal(false);
   }, [categoryDeleted]);
+
+  const smsURL =
+    "sms:?&body=Voici ma liste " +
+    category.name +
+    " :%0a " +
+    tasks
+      ?.map((task) => (task.isDisabled ? "✅ " + task.name : "☑️ " + task.name))
+      .join("%0a ");
+  const handleSMS = useCallback(async () => {
+    const supported = await Linking.canOpenURL(smsURL);
+
+    if (supported) await Linking.openURL(smsURL);
+    else console.log("Error while sending sms");
+  }, [smsURL]);
 
   return (
     <Modal
@@ -95,30 +118,6 @@ export const OptionsModal = ({
 
               {/* Body */}
               <View className="p-2">
-                {/* Rename Category */}
-                <View className="flex-row justify-between items-center w-full my-1">
-                  <TextInput
-                    onChangeText={setInputCategory}
-                    value={inputCategory}
-                    clearButtonMode="always"
-                    placeholder={category.name}
-                    placeholderTextColor="#b0b0b0"
-                    className="w-[150px] border-zinc-300 dark:text-white dark:border-zinc-700 border-[1px] px-2 rounded-sm"
-                    onSubmitEditing={handleRenameCategory}
-                  />
-                  <Button
-                    text="Renommer"
-                    color="#61a146"
-                    textColor="white"
-                    disabled={!!!inputCategory}
-                    loading={loadingUpdate}
-                    onPress={handleRenameCategory}
-                    icon={
-                      <IconEdit className="text-white" width={20} height={20} />
-                    }
-                  />
-                </View>
-
                 {/* Color */}
                 <View className="flex-row relative justify-between items-center w-full my-1">
                   {showPalette && (
@@ -189,6 +188,46 @@ export const OptionsModal = ({
                       />
                     </Pressable>
                   </View>
+                </View>
+
+                {/* SMS */}
+                <View className="flex-row relative justify-between items-center w-full my-1">
+                  <Text className="dark:text-white font-bold">
+                    Envoyer par SMS
+                  </Text>
+                  <Button
+                    text="Envoyer"
+                    color="#61a146"
+                    textColor="white"
+                    onPress={handleSMS}
+                    icon={
+                      <IconSMS className="text-white" width={20} height={20} />
+                    }
+                  />
+                </View>
+
+                {/* Rename Category */}
+                <View className="flex-row justify-between items-center w-full my-1">
+                  <TextInput
+                    onChangeText={setInputCategory}
+                    value={inputCategory}
+                    clearButtonMode="always"
+                    placeholder={category.name}
+                    placeholderTextColor="#b0b0b0"
+                    className="w-[150px] border-zinc-300 dark:text-white dark:border-zinc-700 border-[1px] px-2 rounded-sm"
+                    onSubmitEditing={handleRenameCategory}
+                  />
+                  <Button
+                    text="Renommer"
+                    color="#61a146"
+                    textColor="white"
+                    disabled={!!!inputCategory}
+                    loading={loadingUpdate}
+                    onPress={handleRenameCategory}
+                    icon={
+                      <IconEdit className="text-white" width={20} height={20} />
+                    }
+                  />
                 </View>
               </View>
 
