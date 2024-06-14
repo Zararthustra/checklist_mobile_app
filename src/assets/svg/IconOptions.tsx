@@ -6,6 +6,7 @@ export const IconOptions = ({
   height = 24,
   className = "",
   style,
+  color,
 }: IIcon) => (
   <Svg
     width={width}
@@ -15,7 +16,7 @@ export const IconOptions = ({
     viewBox="0 0 24 24"
   >
     <Path
-      fill="currentColor"
+      fill={color ?? "currentColor"}
       d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0m0-6a2 2 0 1 0 4 0a2 2 0 0 0-4 0m0 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0"
     ></Path>
   </Svg>

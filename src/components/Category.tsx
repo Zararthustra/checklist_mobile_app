@@ -110,9 +110,14 @@ export const Category = ({
           )}
            */}
           <View className="w-[24px]"></View>
-          <Text className="text-2xl font-bold">{category.name}</Text>
+          <Text
+            className="text-2xl font-bold"
+            style={{ color: category.text_color }}
+          >
+            {category.name}
+          </Text>
           <Pressable onPress={() => setShowModal(!showModal)}>
-            <IconOptions className="text-zinc-800" width={32} height={32} />
+            <IconOptions color={category.text_color} width={32} height={32} />
           </Pressable>
         </View>
 
@@ -153,13 +158,9 @@ export const Category = ({
           />
           <Pressable onPress={handleCreateTask}>
             {loadingTask ? (
-              <IconLoader className="dark:text-white text-black" />
+              <IconLoader color={category.text_color} />
             ) : (
-              <IconAddTask
-                className="dark:text-white text-black"
-                width={30}
-                height={30}
-              />
+              <IconAddTask color={category.text_color} width={30} height={30} />
             )}
           </Pressable>
         </View>

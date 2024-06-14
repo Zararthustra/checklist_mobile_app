@@ -89,7 +89,7 @@ export const OptionsModal = ({
                   {category.name}
                 </Text>
                 <Pressable onPress={() => setShowModal(false)}>
-                  <IconClose className="text-zinc-800" />
+                  <IconClose className="text-zinc-800 dark:text-white" />
                 </Pressable>
               </View>
 
@@ -138,6 +138,57 @@ export const OptionsModal = ({
                       height={35}
                     />
                   </Pressable>
+                </View>
+
+                {/* Text Color */}
+                <View className="flex-row relative justify-between items-center w-full my-1">
+                  <Text className="dark:text-white font-bold">
+                    Couleur texte
+                  </Text>
+                  <View className="flex-row gap-2">
+                    <Pressable
+                      onPress={() =>
+                        updateCategory({
+                          payload: {
+                            text_color: "black",
+                          },
+                          id: category.id,
+                        })
+                      }
+                    >
+                      <View
+                        style={{
+                          backgroundColor: "black",
+                          borderColor:
+                            category.text_color === "black"
+                              ? "#22c55e"
+                              : "transparent",
+                        }}
+                        className="w-[25px] h-[25px] rounded-tl rounded-br border-[2px]"
+                      />
+                    </Pressable>
+                    <Pressable
+                      onPress={() =>
+                        updateCategory({
+                          payload: {
+                            text_color: "white",
+                          },
+                          id: category.id,
+                        })
+                      }
+                    >
+                      <View
+                        style={{
+                          backgroundColor: "white",
+                          borderColor:
+                            category.text_color === "white"
+                              ? "#22c55e"
+                              : "transparent",
+                        }}
+                        className="w-[25px] h-[25px] rounded-tl rounded-br border-[2px]"
+                      />
+                    </Pressable>
+                  </View>
                 </View>
               </View>
 
