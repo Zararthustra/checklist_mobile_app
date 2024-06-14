@@ -1,6 +1,7 @@
 // Components
 export { Category } from "./Category";
 export { Header } from "./Header";
+export { Button } from "./Button";
 
 // Modals
 export { SettingsModal } from "./modals/SettingsModal";
