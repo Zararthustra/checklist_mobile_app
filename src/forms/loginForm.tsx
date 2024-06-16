@@ -80,7 +80,7 @@ export const LoginForm = ({
               color="#61a146"
               textColor="white"
               disabled={!!form.errors.account || !!form.errors.password}
-              onPress={() => form.handleSubmit}
+              onPress={() => form.handleSubmit()}
               icon={<IconLogin className="text-white" width={22} height={22} />}
             />
           </View>
