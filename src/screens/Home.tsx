@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { Animated, Dimensions, FlatList, Text, View } from "react-native";
+import { Animated, Dimensions, Text, View } from "react-native";
 import {
   useQueryRetrieveCategories,
   useQueryRetrieveTasks,

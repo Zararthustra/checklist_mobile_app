@@ -4,6 +4,7 @@ import {
   Keyboard,
   Pressable,
   Text,
+  Linking,
 } from "react-native";
 import { IconLogo } from "@assets/index";
 import { LoginForm } from "@forms/index";
@@ -26,6 +27,16 @@ export const Login = ({ navigation }: { navigation: any }) => {
               Créer un compte
             </Text>
           </Pressable>
+        </View>
+        <View className="absolute bottom-5 bg-zinc-100 dark:bg-zinc-900 dark:text-zinc-100">
+          <Text
+            className="dark:text-zinc-100 underline"
+            onPress={() =>
+              Linking.openURL("https://checklist.arthurmayer.fr/privacyrules")
+            }
+          >
+            Règles de Confidentialité
+          </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
