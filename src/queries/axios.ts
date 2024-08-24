@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from "axios";
-import { API_URL } from "@env";
 import { getAS } from "@utils/asyncStorage";
+// import { API_URL } from "@env";
 
-export const baseURL = API_URL;
+export const baseURL = process.env.EXPO_PUBLIC_API_URL;
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL,
