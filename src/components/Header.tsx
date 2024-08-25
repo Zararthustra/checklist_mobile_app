@@ -8,7 +8,7 @@ export const Header = ({}: IHeaderProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <View className="justify-between items-center flex flex-row pt-4 px-3 mb-5">
+    <View className="justify-between items-center flex flex-row pt-1 px-6 mb-5">
       <SettingsModal showModal={showModal} setShowModal={setShowModal} />
 
       <Text className="w-[26px]"></Text>

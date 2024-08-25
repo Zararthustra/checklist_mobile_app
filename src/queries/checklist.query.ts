@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useToast } from "react-native-toast-notifications";
 
 import axiosInstance from "./axios";
 
@@ -88,28 +89,49 @@ export const removeCategory = async (id: string): Promise<any> => {
 // CREATE
 export const useMutationCreateTask = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+  let toastId: string;
 
   return useMutation({
     mutationFn: createTask,
-    onMutate: () => {},
+    onMutate: () => {
+      toastId = toast.show("Ajout...");
+    },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      toast.update(toastId, `${response.name} ajouté !`, {
+        type: "success",
+      });
     },
-    onError: (error: AxiosError) => {},
+    onError: (error: AxiosError) => {
+      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
+    },
   });
 };
 
 export const useMutationCreateCategory = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+  let toastId: string;
 
   return useMutation({
     mutationFn: createCategory,
-    onMutate: () => {},
+    onMutate: () => {
+      toastId = toast.show("Création de la catégorie...");
+    },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      toast.update(toastId, `Catégorie ${response.name} créée !`, {
+        type: "success",
+      });
     },
     onError: (error: AxiosError) => {
       console.log("Error create category:", error);
+      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
     },
   });
 };
@@ -136,29 +158,50 @@ export const useQueryRetrieveTasks = () => {
 // UPDATE
 export const useMutationUpdateCategory = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+  let toastId: string;
 
   return useMutation({
     mutationFn: updateCategory,
-    onSuccess: () => {
+    onMutate: () => {
+      toastId = toast.show("Modification...");
+    },
+    onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      toast.update(toastId, "Modification réussie !", {
+        type: "success",
+      });
     },
     onError: (error: AxiosError) => {
       console.log("Error while updating category:", error.response);
+      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
     },
   });
 };
 
 export const useMutationUpdateTask = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+  let toastId: string;
 
   return useMutation({
     mutationFn: updateTask,
-    onMutate: () => {},
-    onSuccess: () => {
+    onMutate: () => {
+      toastId = toast.show("Checking...");
+    },
+    onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      toast.update(toastId, `${response.name} check !`, {
+        type: "success",
+      });
     },
     onError: (error: AxiosError) => {
       console.log("error while checking task:", error.response);
+      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
     },
   });
 };
@@ -166,26 +209,48 @@ export const useMutationUpdateTask = () => {
 // DELETE
 export const useMutationDeleteTask = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+  let toastId: string;
 
   return useMutation({
     mutationFn: removeTask,
-    onMutate: () => {},
+    onMutate: () => {
+      toastId = toast.show("Suppression...");
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      toast.update(toastId, "Suppression réussie !", {
+        type: "success",
+      });
     },
-    onError: (error: AxiosError) => {},
+    onError: (error: AxiosError) => {
+      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
+    },
   });
 };
 
 export const useMutationDeleteCategory = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+  let toastId: string;
 
   return useMutation({
     mutationFn: removeCategory,
-    onMutate: () => {},
+    onMutate: () => {
+      toastId = toast.show("Suppression...");
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      toast.update(toastId, "Catégorie supprimée !", {
+        type: "success",
+      });
     },
-    onError: (error: AxiosError) => {},
+    onError: (error: AxiosError) => {
+      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
+    },
   });
 };

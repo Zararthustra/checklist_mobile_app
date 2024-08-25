@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "react-native";
 import { useState } from "react";
+import { useToast } from "react-native-toast-notifications";
 import { Task } from "./Task";
 import { OptionsModal } from "./modals/OptionsModal";
 import { IconAddTask, IconLoader, IconOptions } from "@assets/index";
@@ -32,13 +33,19 @@ export const Category = ({
   CATEGORY_HEIGHT,
   CATEGORY_WIDTH,
 }: ICategoryProps) => {
+  const toast = useToast();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [inputTask, setInputTask] = useState<string>("");
   const { mutate: createTask, isPending: loadingTask } =
     useMutationCreateTask();
 
   const handleCreateTask = () => {
-    if (!!!inputTask) return;
+    if (!!!inputTask) {
+      toast.show("Veuillez entrer un élément", {
+        type: "warning",
+      });
+      return;
+    }
     createTask({
       name: inputTask,
       categoryId: category.id,

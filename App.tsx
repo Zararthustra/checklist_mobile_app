@@ -8,6 +8,8 @@ import { deleteAS, getAS, setAS } from "@utils/asyncStorage";
 import { AuthContext } from "@utils/authContext";
 import { ILoginRequest } from "@interfaces/index";
 import { login, register } from "@queries/index";
+import { ToastProvider } from "react-native-toast-notifications";
+import { IconError, IconSuccess, IconWarning } from "@assets/index";
 
 const queryClient = new QueryClient();
 
@@ -124,10 +126,22 @@ export default function App() {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthContext.Provider value={authContext}>
-        <StackNavigator state={state} />
-      </AuthContext.Provider>
-    </QueryClientProvider>
+    <ToastProvider
+      placement="top"
+      offset={50}
+      successIcon={<IconSuccess color="white" size={20} />}
+      successColor="#61a146"
+      dangerIcon={<IconError color="white" size={20} />}
+      dangerColor="#ef4444"
+      warningIcon={<IconWarning color="white" size={20} />}
+      warningColor="#FFC53D"
+      normalColor="#0090FF"
+    >
+      <QueryClientProvider client={queryClient}>
+        <AuthContext.Provider value={authContext}>
+          <StackNavigator state={state} />
+        </AuthContext.Provider>
+      </QueryClientProvider>
+    </ToastProvider>
   );
 }
