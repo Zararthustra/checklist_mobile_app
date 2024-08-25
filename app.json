@@ -16,7 +16,7 @@
     },
     "android": {
       "package": "fr.arthurmayer.checklist",
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./assets/checklist_logo.png",
         "backgroundColor": "#ffffff"
