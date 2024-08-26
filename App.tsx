@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import { useEffect, useMemo, useReducer } from "react";
+import { Text, View } from "react-native";
 import { jwtDecode } from "jwt-decode";
 import { useColorScheme } from "nativewind";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -9,7 +10,7 @@ import { AuthContext } from "@utils/authContext";
 import { ILoginRequest } from "@interfaces/index";
 import { login, register } from "@queries/index";
 import { ToastProvider } from "react-native-toast-notifications";
-import { IconError, IconSuccess, IconWarning } from "@assets/index";
+import { IconError, IconLoader, IconSuccess, IconWarning } from "@assets/index";
 
 const queryClient = new QueryClient();
 
@@ -98,8 +99,10 @@ export default function App() {
           await setAS("accessToken", res.access);
           await setAS("refreshToken", res.refresh);
           dispatch({ type: "SIGN_IN", token: res.access });
-        } catch (error) {
-          console.log("Error while logging user: ", error);
+          return data;
+        } catch (error: any) {
+          console.error("Error while logging user: ", error);
+          return error.code;
         }
       },
       signOut: async () => {
@@ -107,7 +110,7 @@ export default function App() {
           await deleteAS("accessToken");
           await deleteAS("refreshToken");
         } catch (error) {
-          console.log("Error while deleting user token: ", error);
+          console.error("Error while deleting user token: ", error);
         } finally {
           dispatch({ type: "SIGN_OUT" });
         }
@@ -115,10 +118,11 @@ export default function App() {
       signUp: async (data: ILoginRequest) => {
         try {
           await register(data);
-        } catch (error) {
-          console.log("Error while register user: ", error);
-        } finally {
           dispatch({ type: "SIGN_OUT" });
+          return data;
+        } catch (error: any) {
+          console.error("Error while register user: ", error);
+          return error.code;
         }
       },
     }),
@@ -136,6 +140,25 @@ export default function App() {
       warningIcon={<IconWarning color="white" size={20} />}
       warningColor="#FFC53D"
       normalColor="#0090FF"
+      renderType={{
+        loading: (toast) => (
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 5,
+              borderRadius: 5,
+              padding: 10,
+              backgroundColor: "#3E63DD",
+            }}
+          >
+            <IconLoader width={20} height={20} style={{ color: "white" }} />
+            <Text style={{ color: "white", fontWeight: 600 }}>
+              {toast.message}
+            </Text>
+          </View>
+        ),
+      }}
     >
       <QueryClientProvider client={queryClient}>
         <AuthContext.Provider value={authContext}>

@@ -133,6 +133,7 @@ export const OptionsModal = ({
                   </Text>
                   <View className="flex-row gap-2">
                     <Pressable
+                      disabled={category.text_color === "black"}
                       onPress={() =>
                         updateCategory({
                           payload: {
@@ -154,6 +155,7 @@ export const OptionsModal = ({
                       />
                     </Pressable>
                     <Pressable
+                      disabled={category.text_color === "white"}
                       onPress={() =>
                         updateCategory({
                           payload: {

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useColorScheme } from "nativewind";
+import { useToast } from "react-native-toast-notifications";
 import { Button } from "../Button";
 import { AuthContext } from "@utils/authContext";
 import { IconAddTask, IconClose, IconOnOff } from "@assets/index";
@@ -25,6 +26,7 @@ export const SettingsModal = ({
   showModal,
   setShowModal,
 }: ISettingsModalProps) => {
+  const toast = useToast();
   const { signOut } = useContext(AuthContext);
   const {
     mutate: createCategory,
@@ -132,7 +134,12 @@ export const SettingsModal = ({
                   color="#ef4444"
                   text="Se déconnecter"
                   textColor="white"
-                  onPress={signOut}
+                  onPress={() => {
+                    signOut();
+                    toast.show(`À bientôt 👋`, {
+                      type: "success",
+                    });
+                  }}
                   icon={
                     <IconOnOff className="text-white" width={20} height={20} />
                   }

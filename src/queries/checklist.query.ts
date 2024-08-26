@@ -95,7 +95,7 @@ export const useMutationCreateTask = () => {
   return useMutation({
     mutationFn: createTask,
     onMutate: () => {
-      toastId = toast.show("Ajout...");
+      toastId = toast.show("Ajout...", { type: "loading" });
     },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
@@ -119,7 +119,7 @@ export const useMutationCreateCategory = () => {
   return useMutation({
     mutationFn: createCategory,
     onMutate: () => {
-      toastId = toast.show("Création de la catégorie...");
+      toastId = toast.show("Création de la catégorie...", { type: "loading" });
     },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
@@ -164,7 +164,7 @@ export const useMutationUpdateCategory = () => {
   return useMutation({
     mutationFn: updateCategory,
     onMutate: () => {
-      toastId = toast.show("Modification...");
+      toastId = toast.show("Modification...", { type: "loading" });
     },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
@@ -189,7 +189,7 @@ export const useMutationUpdateTask = () => {
   return useMutation({
     mutationFn: updateTask,
     onMutate: () => {
-      toastId = toast.show("Checking...");
+      toastId = toast.show("Checking...", { type: "loading" });
     },
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
@@ -215,7 +215,7 @@ export const useMutationDeleteTask = () => {
   return useMutation({
     mutationFn: removeTask,
     onMutate: () => {
-      toastId = toast.show("Suppression...");
+      toastId = toast.show("Suppression...", { type: "loading" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
@@ -239,7 +239,7 @@ export const useMutationDeleteCategory = () => {
   return useMutation({
     mutationFn: removeCategory,
     onMutate: () => {
-      toastId = toast.show("Suppression...");
+      toastId = toast.show("Suppression...", { type: "loading" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
