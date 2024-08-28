@@ -2,7 +2,7 @@
   "expo": {
     "name": "checklist",
     "slug": "checklist",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/checklist_logo.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
     },
     "android": {
       "package": "fr.arthurmayer.checklist",
-      "versionCode": 9,
+      "versionCode": 10,
       "adaptiveIcon": {
         "foregroundImage": "./assets/checklist_logo.png",
         "backgroundColor": "#ffffff"
