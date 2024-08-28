@@ -159,22 +159,19 @@ export const useQueryRetrieveTasks = () => {
 export const useMutationUpdateCategory = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  let toastId: string;
 
   return useMutation({
     mutationFn: updateCategory,
-    onMutate: () => {
-      toastId = toast.show("Modification...", { type: "loading" });
-    },
+    onMutate: () => {},
     onSuccess: (response: any) => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast.update(toastId, "Modification réussie !", {
+      toast.show("Modification réussie !", {
         type: "success",
       });
     },
     onError: (error: AxiosError) => {
       console.log("Error while updating category:", error.response);
-      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+      toast.show(`Une erreur est survenue: \n${error.message}`, {
         type: "danger",
       });
     },
@@ -184,22 +181,16 @@ export const useMutationUpdateCategory = () => {
 export const useMutationUpdateTask = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  let toastId: string;
 
   return useMutation({
     mutationFn: updateTask,
-    onMutate: () => {
-      toastId = toast.show("Checking...", { type: "loading" });
-    },
-    onSuccess: (response: any) => {
+    onMutate: () => {},
+    onSuccess: (response: ITask) => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      toast.update(toastId, `${response.name} check !`, {
-        type: "success",
-      });
     },
     onError: (error: AxiosError) => {
       console.log("error while checking task:", error.response);
-      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+      toast.show(`Une erreur est survenue: \n${error.message}`, {
         type: "danger",
       });
     },
@@ -210,21 +201,15 @@ export const useMutationUpdateTask = () => {
 export const useMutationDeleteTask = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  let toastId: string;
 
   return useMutation({
     mutationFn: removeTask,
-    onMutate: () => {
-      toastId = toast.show("Suppression...", { type: "loading" });
-    },
+    onMutate: () => {},
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
-      toast.update(toastId, "Suppression réussie !", {
-        type: "success",
-      });
     },
     onError: (error: AxiosError) => {
-      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+      toast.show(`Une erreur est survenue: \n${error.message}`, {
         type: "danger",
       });
     },
@@ -234,21 +219,18 @@ export const useMutationDeleteTask = () => {
 export const useMutationDeleteCategory = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  let toastId: string;
 
   return useMutation({
     mutationFn: removeCategory,
-    onMutate: () => {
-      toastId = toast.show("Suppression...", { type: "loading" });
-    },
+    onMutate: () => {},
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast.update(toastId, "Catégorie supprimée !", {
+      toast.show("Catégorie supprimée !", {
         type: "success",
       });
     },
     onError: (error: AxiosError) => {
-      toast.update(toastId, `Une erreur est survenue: \n${error.message}`, {
+      toast.show(`Une erreur est survenue: \n${error.message}`, {
         type: "danger",
       });
     },
