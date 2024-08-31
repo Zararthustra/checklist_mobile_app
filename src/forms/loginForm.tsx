@@ -42,9 +42,13 @@ export const LoginForm = ({
           toast.update(toastId, `Compte ou mot de passe incorrect`, {
             type: "danger",
           });
-        else
+        else if (!!response.username)
           toast.update(toastId, `Bonjour ${response.username} 😊`, {
             type: "success",
+          });
+        else
+          toast.show(`Une erreur est survenue: \n${response}`, {
+            type: "danger",
           });
         setIsLoading(false);
       });
@@ -56,7 +60,7 @@ export const LoginForm = ({
             toast.update(toastId, "Ce nom de compte existe déjà", {
               type: "danger",
             });
-          else
+          else if (!!response.username)
             toast.update(
               toastId,
               `Compte créé, bienvenue ${response.username} 🤗`,
@@ -64,6 +68,10 @@ export const LoginForm = ({
                 type: "success",
               }
             );
+          else
+            toast.show(`Une erreur est survenue: \n${response}`, {
+              type: "danger",
+            });
           setIsLoading(false);
         }
       );
