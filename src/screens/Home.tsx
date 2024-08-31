@@ -6,7 +6,7 @@ import {
 } from "@queries/index";
 import { Category, Header } from "@components/index";
 import { ICategory } from "@interfaces/index";
-import { IconLoader } from "src/assets";
+import { IconLoader } from "@assets/index";
 import { useColorScheme } from "nativewind";
 
 // Globals

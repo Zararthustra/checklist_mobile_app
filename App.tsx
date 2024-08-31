@@ -96,6 +96,8 @@ export default function App() {
       signIn: async (data: ILoginRequest) => {
         try {
           const res = await login(data);
+          const decodedToken = jwtDecode<any>(res.access);
+          await setAS("userId", String(decodedToken.user_id));
           await setAS("accessToken", res.access);
           await setAS("refreshToken", res.refresh);
           dispatch({ type: "SIGN_IN", token: res.access });

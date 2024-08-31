@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useToast } from "react-native-toast-notifications";
 import axiosInstance from "./axios";
 import { ILoginRequest, ILoginResponse } from "@interfaces/index";
 import { setAS } from "@utils/asyncStorage";
+import { AuthContext } from "@utils/authContext";
 
 // =====
 // Axios
@@ -25,6 +28,10 @@ export const reconnect = async (refreshToken: string) => {
 export const register = async (payload: ILoginRequest) => {
   const { data } = await axiosInstance.post(`/register`, payload);
   return data;
+};
+// DELETE
+const deleteUser = async (userId: string): Promise<any> => {
+  await axiosInstance.delete(`/users/${userId}`);
 };
 
 // ==========
@@ -53,25 +60,6 @@ export const useMutationLogin = () => {
   });
 };
 
-// RECONNECT
-export const useMutationReconnect = () => {
-  return useMutation({
-    mutationFn: reconnect,
-    onSuccess: (response) => {
-      // setAccessToken(response.access);
-      // setRefreshToken(response.refresh);
-      // try {
-      //   const token = jwtDecode<any>(response.access);
-      //   setLS('name', token.username);
-      //   setLS('userId', token.user_id);
-      // } catch (error) {
-      //   console.log('JWT Error:', error);
-      // }
-    },
-    onError: () => {},
-  });
-};
-
 // REGISTER
 export const useMutationRegister = () => {
   return useMutation({
@@ -79,5 +67,27 @@ export const useMutationRegister = () => {
     onMutate: () => {},
     onSuccess: () => {},
     onError: (error: AxiosError) => {},
+  });
+};
+
+// DELETE
+export const useMutationDeleteUser = () => {
+  const toast = useToast();
+  const { signOut } = useContext(AuthContext);
+
+  return useMutation({
+    mutationFn: deleteUser,
+    onMutate: () => {},
+    onSuccess: () => {
+      toast.show("Compte supprimé", {
+        type: "success",
+      });
+      signOut();
+    },
+    onError: (error: AxiosError) => {
+      toast.show(`Une erreur est survenue: \n${error.message}`, {
+        type: "danger",
+      });
+    },
   });
 };

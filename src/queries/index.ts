@@ -13,13 +13,13 @@ export {
   useMutationUpdateCategory,
   useMutationUpdateTask,
   useQueryRetrieveCategories,
-  useQueryRetrieveTasks
-} from './checklist.query';
+  useQueryRetrieveTasks,
+} from "./checklist.query";
 export {
   login,
   reconnect,
   register,
   useMutationLogin,
-  useMutationReconnect,
-  useMutationRegister
-} from './user.query';
+  useMutationDeleteUser,
+  useMutationRegister,
+} from "./user.query";

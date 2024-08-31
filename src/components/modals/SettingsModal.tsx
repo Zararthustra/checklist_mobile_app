@@ -16,6 +16,7 @@ import { AuthContext } from "@utils/authContext";
 import { IconAddTask, IconClose, IconOnOff } from "@assets/index";
 import { useMutationCreateCategory } from "@queries/index";
 import { setAS } from "@utils/asyncStorage";
+import { ConfirmDeleteAccModal } from "./ConfirmDeleteAccModal";
 
 interface ISettingsModalProps {
   showModal: boolean;
@@ -34,6 +35,7 @@ export const SettingsModal = ({
     isPending: loadingCategory,
   } = useMutationCreateCategory();
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
   const [inputCategory, setInputCategory] = useState<string>("");
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const isDarkMode = colorScheme === "dark";
@@ -129,7 +131,7 @@ export const SettingsModal = ({
               </View>
 
               {/* Footer */}
-              <View className="flex-row justify-end w-full p-2">
+              <View className="flex-col items-end w-full p-2">
                 <Button
                   color="#ef4444"
                   text="Se déconnecter"
@@ -144,6 +146,18 @@ export const SettingsModal = ({
                     <IconOnOff className="text-white" width={20} height={20} />
                   }
                 />
+                <View className="mt-2">
+                  <ConfirmDeleteAccModal
+                    showModal={showDeleteConfirm}
+                    setShowModal={setShowDeleteConfirm}
+                  />
+                  <Button
+                    color="#ef4444"
+                    text="Supprimer mon compte"
+                    textColor="white"
+                    onPress={() => setShowDeleteConfirm(true)}
+                  />
+                </View>
               </View>
             </View>
           </TouchableWithoutFeedback>
